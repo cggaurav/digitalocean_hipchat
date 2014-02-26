@@ -18,22 +18,11 @@ $watched_properties = config["watched_properties"].map &:to_sym
 # => {359165=>{:name=>{:old_value=>"production_old", :new_value=>"production_new"}}}
 #
 def get_changes (old_state, current_state)
-  puts old_state.inspect
-  changes = {}
-  old_state.each do |id, droplet|
-    $watched_properties.each do |property|
-      if droplet[property] != current_state[id][property]
-        changes[id] = {
-            property => {
-              old_value: droplet[property],
-              new_value: current_state[id][property]
-            }
-          }
-      end
-    end
+  if old_state === current_state
+    return nil
+  else
+    return [old_state, '|', current_state]
   end
-  
-  return changes
 end
 
 # Notifies hipchat about each change as described by the get_changes method.
@@ -45,14 +34,8 @@ end
 $hipchat_uri = "http://api.hipchat.com/v1/rooms/message?format=json&auth_token=#{config["hipchat_token"]}&room_id=#{config["hipchat_room"]}&from=#{config["hipchat_from"]}&notify=#{config["hipchat_notify"]}"
 
 def notify_hipchat (changes)
-  changes.each do |id, properties|
-    properties.each do |property|
-      old_value = property.last[:old_value]
-      new_value = property.last[:new_value]
-      message = "Droplet #{id}'s name changed from #{old_value} to #{new_value}."
-      URI.parse(URI.encode($hipchat_uri + "&message=#{message}")).read
-    end
-  end
+  message = changes.to_s
+  URI.parse(URI.encode($hipchat_uri + "&message=#{message}")).read
 
   return
 end
@@ -73,10 +56,12 @@ while true do
       status:   droplet["status"],
     }
   end
+
+  puts current_state
   
   unless old_state.empty?
     changes = get_changes(old_state, current_state)
-    unless changes.empty?
+    if not changes.nil?
       flag = false
       notify_hipchat(changes)
     end

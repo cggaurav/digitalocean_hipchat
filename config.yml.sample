@@ -1,0 +1,12 @@
+do_client_id: "ditigal-ocean-id"
+do_api_key: "digital-ocean-secret"
+
+hipchat_token: "hipchat-token"
+hipchat_room: 0000
+hipchat_from: "Digital Ocean"
+hipchat_notify: 1
+
+# A list of which properties to watch. 
+watched_properties: [name, size_id, ip_address, status]
+# Number of seconds to sleep between each poll
+poll_interval: 10 # 300s = 5min
