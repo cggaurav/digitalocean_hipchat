@@ -9,4 +9,8 @@ Copy config.yml.sample to config.yml and add your Digital Ocean and HipChat API 
 
 ```git push heroku master```
 
-Thanks to @globalitdevelopment
+## PRs needed
+
+
+## Contribution
+Thanks to [globalitdevelopment](https://github.com/globalitdevelopment/droplet-notifications)
