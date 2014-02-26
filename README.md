@@ -9,6 +9,10 @@ Copy config.yml.sample to config.yml and add your Digital Ocean and HipChat API 
 
 ```git push heroku master```
 
+```heroku ps:scale web=0```
+
+```heroku ps:scale worker=1```
+
 ## PRs needed
 
 
