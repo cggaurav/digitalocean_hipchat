@@ -15,6 +15,8 @@ Copy config.yml.sample to config.yml and add your Digital Ocean and HipChat API 
 
 ## PRs needed
 
+Looking to get more informative messages. 
+
 
 ## Contribution
 Thanks to [globalitdevelopment](https://github.com/globalitdevelopment/droplet-notifications)
